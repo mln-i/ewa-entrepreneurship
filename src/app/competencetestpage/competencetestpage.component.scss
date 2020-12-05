@@ -1,0 +1,119 @@
+.competence-test-container {
+  margin: 0px 0px 0px 0px !important;
+  background-color: #eceff173;
+
+  .page-title {
+    margin-top: 20px;
+  }
+
+  .question-table {
+    .radio__btn__custom {
+      text-align: center;
+    }
+  }
+
+  .preview {
+    margin-bottom: 20px;
+    height: 81vh;
+
+    .questionsBox {
+      display: block;
+      border: solid 1px #e3e3e3;
+      background-color: white;
+      padding: 10px 20px 0px;
+      border-radius: 3px;
+      margin: 0 10px;
+    }
+    .questions {
+      background: #568dd8;
+      color: #fff;
+      font-size: 22px;
+      padding: 8px 30px;
+      font-weight: 300;
+      margin: 0 -30px 10px;
+      position: relative;
+    }
+    .questions:after {
+      display: block;
+      position: absolute;
+      top: 100%;
+      width: 9px;
+      height: 7px;
+      content: ".";
+      left: 0;
+      text-align: left;
+      font-size: 0;
+    }
+    .questions:after {
+      left: auto;
+      right: 0;
+      background-position: -10px 0;
+    }
+    .questions:before,
+    .questions:after {
+      background: black;
+      display: block;
+      position: absolute;
+      top: 100%;
+      width: 9px;
+      height: 7px;
+      content: ".";
+      left: 0;
+      text-align: left;
+      font-size: 0;
+    }
+    .answerList {
+      margin-bottom: 15px;
+    }
+
+    ol,
+    ul {
+      list-style: none;
+    }
+    .answerList li:first-child {
+      border-top-width: 0;
+    }
+
+    .answerList li {
+      padding: 3px 0;
+    }
+    .answerList label {
+      display: block;
+      padding: 6px;
+      border-radius: 6px;
+      border: solid 1px #dde7e8;
+      font-weight: 400;
+      font-size: 16px;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
+    }
+    input[type="checkbox"],
+    input[type="radio"] {
+      margin: 4px 0 0;
+      margin-top: 1px;
+      line-height: normal;
+    }
+    .questionsRow {
+      background: #dee3e6;
+      margin: 0 -20px;
+      padding: 10px 20px;
+      border-radius: 0 0 3px 3px;
+    }
+    .button-next {
+      margin-right: 5px;
+    }
+    .questionsRow span {
+      display: inline-block;
+      line-height: 30px;
+      border: solid 1px #aeb9c0;
+      padding: 0 10px;
+      background: #fff;
+      color: #007fbe;
+    }
+  }
+
+  .take-test-btn, .button-next {
+    background-color: #568dd8;
+    border-color: #568dd8;
+  }
+}

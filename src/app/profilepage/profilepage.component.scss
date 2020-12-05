@@ -1,0 +1,55 @@
+#testResults {
+  background-color: transparent;
+}
+
+.profile-page-container {
+  margin: 20px 0px 20px 0px !important;
+
+  .page__title {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .profile__picture__block {
+    text-align: center;
+
+    .profile__picture {
+      border: 1px solid #f5f5f5;
+      border-radius: 20%;
+    }
+  }
+
+  .user__information,
+  .test_results_block {
+    padding: 5px 0px 10px 0px;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+
+    .chart__block {
+      width: 100%;
+    }
+
+    .required__text {
+      font-size: 12px;
+    }
+
+    .label__spacing {
+      margin-top: 1em;
+    }
+  }
+
+  .save-btn, .export-pdf-btn, .homepage-btn {
+    background-color: #568dd8;
+    border-color: #568dd8;
+  }
+
+  .username-text {
+    font-family: "Arial";
+    font-style: normal;
+  }
+
+  .homepage-btn-div {
+    padding-top: 20px;
+  }
+}
+

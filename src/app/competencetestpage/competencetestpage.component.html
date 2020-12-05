@@ -1,0 +1,141 @@
+<div class="competence-test-container row">
+  <div class="col-md-12 text-center">
+    <h1 class="page-title">
+      Competence Test
+      <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#information" #infoBtn>
+        <i class="fa fa-info-circle" aria-hidden="true"></i>
+      </button>
+    </h1>
+  </div>
+
+  <div class="col-md-10 offset-md-1 question-table">
+    <label><b>How confident are you in the following areas?</b></label>
+    <form #competenceForm="ngForm">
+      <div class="preview">
+        <div class="questionsBox">
+          <div class="questions">
+            <b>{{ questionDescription }} </b>
+          </div>
+          <ul class="answerList">
+            <li>
+              <label>
+                <input type="radio" [(ngModel)]="questionAnswerModel.score" name="answer" [value]="1" />
+                Not confident at all</label>
+            </li>
+            <li>
+              <label>
+                <input type="radio" [(ngModel)]="questionAnswerModel.score" name="answer" [value]="2" />
+                Slightly confident</label>
+            </li>
+            <li>
+              <label>
+                <input type="radio" [(ngModel)]="questionAnswerModel.score" name="answer" [value]="3" />
+                Somewhat confident</label>
+            </li>
+            <li>
+              <label>
+                <input type="radio" [(ngModel)]="questionAnswerModel.score" name="answer" [value]="4" />
+                Fairly confident</label>
+            </li>
+            <li>
+              <label>
+                <input type="radio" [(ngModel)]="questionAnswerModel.score" name="answer" [value]="5" />
+                Completely confident</label>
+            </li>
+          </ul>
+          <div class="questionsRow">
+            <span>{{ questionCounter }} of {{ questionsTotal }}</span>
+            <div class="pull-right">
+              <button *ngIf="questionCounter > 1 && submitBtn === false" class="btn btn-dark button-next" id="previousQuestion"
+                (click)="previousQuestion()">
+                Previous Question
+              </button>
+              <button *ngIf="nextQuestionBtn === true" class="btn btn-primary button-next" id="nextquestions" (click)="nextQuestion()">
+                {{ nextQuestionBtnText }}
+              </button>
+              <button *ngIf="submitBtn === true" class="btn btn-success button-next" (click)="onSubmit()"
+                [style.display]="
+                submitBtnClicked
+                  ? 'none'
+                  : 'inline'
+              ">
+                Submit Test
+              </button>
+            </div>
+            <br /><br />
+            <div class="progress col-md-12" style="padding-left: 0px;  padding-right: 0px;">
+              <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" [ngStyle]="{ width: progressBarStatus + '%' }">
+                <b>{{ progressBarStatus }}%</b>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- The Modal -->
+  <div class="modal fade" id="information">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Welcome to the Competence Test!</h4>
+          <button type="button" class="close" data-dismiss="modal">
+            &times;
+          </button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <h5 style="color: #f25f5c;">General Information</h5>
+              <ul>
+                <li><b>Total Questions: </b>{{ questionsTotal }}</li>
+                <li><b>Time Limit: </b>No time limit.</li>
+                <li>
+                  <b>The test procedure takes approximately 15-20 minutes.</b>
+                </li>
+              </ul>
+              <hr />
+              <h5 style="color: #f25f5c;">Instructions</h5>
+              <ul>
+                <li>
+                  This competence test is to determine your skills in several
+                  areas. These areas are divided in more than 10 sub
+                  competences.
+                </li>
+                <li>
+                  All questions has to be answered. If you don't select an
+                  answer you can not proceed the test.
+                </li>
+                <li>
+                  You can go to the next question, by using the
+                  <b>Next Question</b> button. Note: if you are already on the
+                  last question, you will see the
+                  <b>Save Last Question</b> button instead of the
+                  <b>Next Question</b> button.
+                </li>
+                <li>
+                  After you have answered all the questions, click the
+                  <b>Submit Test</b> button to submit your answers and see your
+                  results.
+                </li>
+              </ul>
+              <b>Note: </b> If you go to the previous question, you will
+              <b>lose</b> your current question answer!
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success take-test-btn" data-dismiss="modal">
+            Take the Test
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

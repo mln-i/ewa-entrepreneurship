@@ -1,0 +1,146 @@
+<div class="student-homepage-container row">
+  <div class="col-md-3">
+    <div class="center-text-div">
+      <button type="button" class="btn btn-warning btn-lg btn-block take-test-btn" routerLink="/competencetest">
+        <b>Re-Take Competence Test</b>
+        <h5 class="sub-text">
+          <i>(Go to your profile to see <br />previous test results)</i>
+        </h5>
+      </button>
+    </div>
+    <br />
+    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+      <a class="nav-link active" id="v-pills-moocsoverview-tab" data-toggle="pill" href="#v-pills-moocsoverview" role="tab"
+        aria-controls="v-pills-moocsoverview" aria-selected="true">MOOCS Overview</a>
+      <a class="nav-link" id="v-pills-additionalcontent-tab" data-toggle="pill" href="#v-pills-additionalcontent" role="tab"
+        aria-controls="v-pills-additionalcontent" aria-selected="false">Additional Content</a>
+      <a class="nav-link" href="/competenceresults" aria-selected="false">See Test Results</a>
+    </div>
+  </div>
+  <div class="col-md-9">
+    <div class="tab-content" id="v-pills-tabContent">
+      <!-- MOOC overview -->
+      <div class="content tab-pane fade show active" id="v-pills-moocsoverview" role="tabpanel" aria-labelledby="v-pills-moocsoverview-tab">
+        <h2>MOOCS Courses Overview</h2>
+        <p>
+          All courses that are recommended below are based on the test results.
+        </p>
+        <!-- Filter/search bar -->
+        <div class="row">
+          <div class="col-md-6 search-bar">
+            <b>Filter by Title</b>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Example: CEO" [(ngModel)]="searchStringVideoTitle" />
+            </div>
+          </div>
+          <div class="col-md-6 search-bar">
+            <b>Filter by MOOC Platform</b>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Example: Khanacademy, Lynda ..." [(ngModel)]="searchStringVideoMooc" />
+            </div>
+          </div>
+        </div>
+        <!-- End Filter/search bar -->
+        <div class="table-scroll">
+          <table class="table table-hover student-videos-table">
+            <thead>
+              <tr>
+                <th>Thumbnail</th>
+                <th>Title + Competence</th>
+                <th>Description</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="
+                  let mooc of (moocList
+                    | filterTable: 'title':searchStringVideoTitle
+                    | filterTable: 'url':searchStringVideoMooc)
+                ">
+                <td>
+                  <img class="example-photo" src="{{ mooc.image }}" alt="No picture" />
+                </td>
+                <td style="width:30%;">
+                  {{ mooc.title }}<br /><span class="badge badge-dark">{{
+                    mooc.competences
+                    }}</span><br />
+                  <span *ngIf="mooc.show_on_top === 1" class="badge badge-warning"><i class="fa fa-star" aria-hidden="true"></i>
+                    Recommended</span>
+                </td>
+                <td style="width:60%;">
+                  <p>{{ mooc.description }}</p>
+                </td>
+                <td>
+                  <a role="button" class="btn btn-outline-warning" href="{{ mooc.url }}" target="_blank"><i class="fa fa-external-link"
+                      aria-hidden="true"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- End MOOC overview -->
+      <!-- MOOC Additional Content overview -->
+      <div class="tab-pane fade show" id="v-pills-additionalcontent" role="tabpanel" aria-labelledby="v-pills-additionalcontent-tab">
+        <div class="content">
+          <h2>Additional Content Overview</h2>
+          <p>
+            All content that are recommended below are based on the test
+            results.
+          </p>
+          <!-- Filter/search bar -->
+          <div class="row">
+            <div class="col-md-6 search-bar">
+              <b>Filter by Title</b>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Example: CEO" [(ngModel)]="searchStringVideoTitle" />
+              </div>
+            </div>
+            <div class="col-md-6 search-bar">
+              <b>Filter by Description</b>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Example: Entrepreneurship" [(ngModel)]="searchStringVideoDescription" />
+              </div>
+            </div>
+          </div>
+          <!-- End Filter/search bar -->
+          <div class="table-scroll">
+            <table class="table table-hover student-videos-table">
+              <thead>
+                <tr>
+                  <th>Thumbnail</th>
+                  <th>Title</th>
+                  <th>Competence</th>
+                  <th>Description</th>
+                  <th>Link</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="
+                    let video of (videosList
+                      | filterTable: 'title':searchStringVideoTitle
+                      | filterTable
+                        : 'description'
+                        : searchStringVideoDescription);
+                    let i = index
+                  ">
+                  <td>
+                    <img src="assets/images/youtubelogo.jpg" alt="Thumbnail" class="example-photo" />
+                  </td>
+                  <td>{{ video.title }}</td>
+                  <td>{{ video.competence }}</td>
+                  <td>{{ video.description }}</td>
+                  <td style="width: 15%;">
+                    <a role="button" class="btn btn-outline-warning action__btn" href="{{ video.url }}" target="_blank"><i
+                        class="fa fa-external-link" aria-hidden="true"></i></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End MOOC Additional Content overview -->
+  </div>
+</div>

@@ -1,0 +1,716 @@
+<div class="teacher-homepage-container row">
+  <!-- Page title -->
+  <div class="col-md-12 page__title">
+    <h3>Dashboard</h3>
+  </div>
+
+  <!-- Tab menu on side -->
+  <div class="col-md-2">
+    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+      <a class="nav-link active" id="v-pills-overview-tab" data-toggle="pill" href="#v-pills-overview" role="tab"
+        aria-controls="v-pills-overview" aria-selected="true">Overview</a>
+      <a class="nav-link" id="v-pills-studentlist-tab" data-toggle="pill" href="#v-pills-studentlist" role="tab"
+        aria-controls="v-pills-studentlist" aria-selected="false">Student List</a>
+      <a class="nav-link" id="v-pills-classlist-tab" data-toggle="pill" href="#v-pills-classlist" role="tab"
+        aria-controls="v-pills-classlist" aria-selected="false">Class List</a>
+      <a class="nav-link" id="v-pills-studenresults-tab" data-toggle="pill" href="#v-pills-studenresults" role="tab"
+        aria-controls="v-pills-studenresults" aria-selected="false">Student Results</a>
+      <a class="nav-link" id="v-pills-managevid-tab" data-toggle="pill" href="#v-pills-managevid" role="tab"
+        aria-controls="v-pills-managevid" aria-selected="false">Manage Additional Content</a>
+      <a class="nav-link disabled disable-tab" id="v-pills-managemoocs-tab" data-toggle="pill" href="#v-pills-managemoocs" role="tab"
+        aria-controls="v-pills-managemoocs" aria-selected="false">Manage MOOCS</a>
+    </div>
+  </div>
+
+  <div class="col-md-10 tab__container">
+    <div class="tab-content" id="v-pills-tabContent">
+      <div class="tab-pane fade show active" id="v-pills-overview" role="tabpanel" aria-labelledby="v-pills-overview-tab">
+        <div class="row text-center">
+          <div class="col">
+            <div class="counter">
+              <i class="fa fa-users fa-2x" aria-hidden="true"></i>
+              <h2 class="timer count-title count-number">
+                {{ studentList.length }}
+              </h2>
+              <p class="count-text">Total Students</p>
+            </div>
+          </div>
+          <div class="col">
+            <div class="counter">
+              <i class="fa fa-user-plus fa-2x" aria-hidden="true"></i>
+              <h2 class="timer count-title count-number">
+                {{ classList.length }}
+              </h2>
+              <p class="count-text">Total Classes</p>
+            </div>
+          </div>
+          <div class="col">
+            <div class="counter">
+              <i class="fa fa-check fa-2x" aria-hidden="true"></i>
+              <h2 class="timer count-title count-number">0</h2>
+              <p class="count-text">Total Results</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Show Student list -->
+      <div class="tab-pane fade col-md-12" id="v-pills-studentlist" role="tabpanel" aria-labelledby="v-pills-studentlist-tab">
+        <!-- Filter/search bar -->
+        <div class="row">
+          <div class="col-md-6 search-bar">
+            <b>Filter by First Name</b>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Example: Maarten" [(ngModel)]="searchStringStudentFirstName" />
+            </div>
+          </div>
+          <div class="col-md-6 search-bar">
+            <b>Filter by Last Name</b>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Example: Groen" [(ngModel)]="searchStringStudentLastName" />
+            </div>
+          </div>
+        </div>
+        <!-- End Filter/search bar -->
+        <div><b>Total Students Found: </b>{{ totalStudentsFound }}</div>
+        <br />
+        <div class=" table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Class</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="
+                  let user of (studentList
+                    | filterTable: 'first_name':searchStringStudentFirstName
+                    | filterTable: 'last_name':searchStringStudentLastName
+                    | paginate
+                      : {
+                          itemsPerPage: 5,
+                          currentPage: p,
+                          id: 'studentsListPagination'
+                        });
+                  let i = index
+                ">
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.last_name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.class_name }}</td>
+                <td>
+                  <button type="button" class="btn btn-outline-primary action__btn" data-toggle="modal" data-target="#modalStudent"
+                    (click)="loadUserDataEdit(user.id)">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                  </button>
+                  <button type="button" class="btn btn-outline-info action__btn" data-toggle="modal" data-target="#modalUserEdit"
+                    (click)="loadUserDataEdit(user.id)">
+                    <i class="fa fa-edit" aria-hidden="true"></i>
+                  </button>
+                  <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#modalDeleteUser"
+                    (click)="loadUserDataEdit(user.id)">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="center-block pagination-bar">
+              <pagination-controls (pageChange)="p = $event" id="studentsListPagination"></pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Show Student list -->
+      <!-- Show Class list -->
+      <div class="tab-pane fade col-md-12" id="v-pills-classlist" role="tabpanel" aria-labelledby="v-pills-classlist-tab">
+        <!-- Add class -->
+        <div class="col-md-12 class-input" style="text-align: right; padding-bottom: 20px">
+          <button type="button" style="width: 100px; font-size: 25px;" class="btn btn-primary add-class-btn"
+            data-toggle="modal" data-target="#modalAddClass">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+          </button>
+        </div>
+        <!-- End add class -->
+        <div class=" table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Class</th>
+                <th scope="col">Total students</th>
+                <th scope="col">Code</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let class of classList; let i = index">
+                <th> {{ i + 1 }} </th>
+                <td> {{ class.class_name }} </td>
+                <td> {{ studentCountList[i] }} </td>
+                <td> {{ class.class_name }}_{{ i + 1 }} </td>
+                <td>
+                  <button type="button" class="btn btn-outline-info action__btn" data-toggle="modal" data-target="#modalEditClass"
+                    (click)="loadSelectedClassEdit(class.class_id)">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- End Show Class list -->
+      <!-- Student Results tab -->
+      <div class="tab-pane fade col-md-12" id="v-pills-studenresults" role="tabpanel" aria-labelledby="v-pills-studenresults-tab">
+        <!-- Filter/search bar -->
+        <div class="row">
+          <div class="col-md-6 search-bar">
+            <b>Filter by First Name</b>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Example: Richard" [(ngModel)]="searchStringResultsFirstName" />
+            </div>
+          </div>
+          <div class="col-md-6 search-bar">
+            <b>Filter by Class</b>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Example: IS203" [(ngModel)]="searchStringResultsClassName" />
+            </div>
+          </div>
+        </div>
+        <!-- End Filter/search bar -->
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Class Name</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="
+                  let user of (studentList
+                    | filterTable: 'first_name':searchStringResultsFirstName
+                    | filterTable: 'class_name':searchStringResultsClassName
+                    | paginate
+                      : {
+                          itemsPerPage: 5,
+                          currentPage: pageResult,
+                          id: 'resultsListPagination'
+                        });
+                  let i = index
+                ">
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.last_name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.class_name }}</td>
+                <td>
+                  <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#modalViewResults"
+                    (click)="loadUserDataResults(user.id)">
+                    <i class="fa fa-eye" aria-hidden="true"></i> View Results
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="center-block pagination-bar">
+              <pagination-controls (pageChange)="pageResult = $event" id="resultsListPagination"></pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Student Results tab -->
+      <!-- Manage Videos tab -->
+      <div class="tab-pane fade" id="v-pills-managevid" role="tabpanel" aria-labelledby="v-pills-managevid-tab">
+        <!-- Filter/search bar -->
+        <div class="row">
+          <div class="col-md-5 search-bar">
+            <b>Filter by Title</b>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Example: CEO" [(ngModel)]="searchStringTitle" />
+            </div>
+          </div>
+          <div class="col-md-5 search-bar">
+            <b>Filter by Description</b>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Example: Entrepreneurship" [(ngModel)]="searchStringDescription" />
+            </div>
+          </div>
+          <div class="col-md-2 insert-video-div">
+            <button class="btn btn-primary insert-video-btn" data-toggle="modal" data-target="#insertModalVideo">
+              <i class="fa fa-plus" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+        <!-- End Filter/search bar -->
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Competence</th>
+                <th scope="col">Description</th>
+                <th scope="col">Url/Link</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="
+                  let video of (videosList
+                    | filterTable: 'title':searchStringTitle
+                    | filterTable: 'description':searchStringDescription);
+                  let i = index
+                ">
+                <th>{{ i + 1 }}</th>
+                <td>{{ video.title }}</td>
+                <td>{{ video.competence }}</td>
+                <td class="description-max">{{ video.description }}</td>
+                <td>{{ video.url }}</td>
+                <td>
+                  <button type="button" (click)="loadSelectedVidEdit(video.id)" class="btn btn-outline-info action__btn"
+                    data-toggle="modal" data-target="#modalVideo">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                  </button>
+                  <button type="button" (click)="loadSelectedVidEdit(video.id)" class="btn btn-outline-danger"
+                    data-toggle="modal" data-target="#modalDeleteAdditionalVideo">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- End Manage Videos tab -->
+      </div>
+      <!-- Manage MOOCS tab -->
+      <div class="tab-pane fade" id="v-pills-managemoocs" role="tabpanel" aria-labelledby="v-pills-managemoocs-tab">
+        <div class=" table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col" width="60%">Description</th>
+                <th scope="col">Show on Top</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>
+                  <img class="example-photo" src="https://cdn.lynda.com/course/77683/77683-636265526393425215-16x9.jpg"
+                    alt="No picture" />
+                </td>
+
+                <td class="table__url">
+                  Pellentesque habitant morbi tristique senectus et netus et
+                  malesuada fames ac turpis egestas.
+                </td>
+                <td class="table__center">
+                  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- End Manage MOOCS tab -->
+
+      <!-- ----All Modals----- -->
+      <!--Insert Video Modal-->
+      <div class="modal fade" id="insertModalVideo" tabindex="-1" role="dialog" aria-labelledby="modalVideoLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalVideoLabel">Insert Video</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <label><b>Title</b></label>
+              <input type="text" class="form-control" [(ngModel)]="videos.title" id="insertVideoTitle" placeholder="Title" />
+              <label><b>Related competence</b></label>
+              <div class="form-group">
+                <select class="form-control" name="videoCompetences" [(ngModel)]="videos.competence">
+                  <option disabled>Select one competence</option>
+                  <option *ngFor="let competence of competenceList" value="{{ competence.competence }}">
+                    {{ competence.competence }} ({{
+                    competence.competence_type
+                    }})
+                  </option>
+                </select>
+              </div>
+              <label><b>Description</b></label>
+              <input type="text" class="form-control" [(ngModel)]="videos.description" id="insertVideoDescription"
+                placeholder="Type description" />
+              <br /><label><b>Url/Link</b></label>
+              <input type="text" class="form-control" [(ngModel)]="videos.url" id="insertVideoUrl" placeholder="Paste your Youtube url here..." />
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                Close
+              </button>
+              <button type="button" (click)="attachUserIdToAdditionalVideo()" class="btn btn-primary">
+                Add video
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Insert Video Modal -->
+      <!-- Modal Manage Videos -->
+      <div class="modal fade" id="modalVideo" tabindex="-1" role="dialog" aria-labelledby="modalVideoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalVideoLabel">Edit Video</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <label><b>Title</b></label>
+              <input type="text" class="form-control" id="videoTitle" placeholder="Title" value="{{ modalVideoTitle }}" />
+              <br />
+              <label><b>Related competence</b></label>
+              <div class="form-group">
+                <select class="form-control" id="manageVideoCompetences" [(ngModel)]="videos.competence">
+                  <option disabled>Select one competence</option>
+                  <option *ngFor="let competence of competenceList" id="{{ competence.competence }}" value="{{ competence.competence }}">
+                    {{ competence.competence }} ({{
+                    competence.competence_type
+                    }})
+                  </option>
+                </select>
+              </div>
+
+              <label><b>Description</b></label>
+              <input type="text" class="form-control" id="videoDescription" placeholder="Type description" value="{{ modalVideoDescription }}" />
+              <br /><label><b>Url/Link</b></label>
+              <input type="text" class="form-control" id="videoUrl" placeholder="Paste your Youtube url here..." value="{{ modalVideoUrl }}" />
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                Close
+              </button>
+              <button type="button" (click)="updateVideo()" class="btn btn-primary">
+                Save changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Modal Manage Videos -->
+      <!-- Modal Delete Video -->
+      <div class="modal fade" id="modalDeleteAdditionalVideo">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Delete video</h4>
+              <button type="button" class="close" data-dismiss="modal">
+                &times;
+              </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+              <p>Are you sure you want to delete this video:</p>
+              <p><b>Title: </b>{{ modalVideoTitle }}</p>
+              <p><b>Description: </b>{{ modalVideoDescription }}</p>
+              <p><b>Url: </b>{{ modalVideoUrl }}</p>
+              <p><b>Competence: </b>{{ modalVideoCompetence }}</p>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                Close
+              </button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteAdditionalVideo()">
+                Delete Video
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Modal Delete Video -->
+      <!-- Modal Edit User -->
+      <div class="modal fade" id="modalUserEdit" tabindex="-1" role="dialog" aria-labelledby="modalUserLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalUserLabel">Edit User</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <label><b>E-mail:</b></label>
+              <input type="text" class="form-control" id="userEmail" placeholder="E-mail" value="{{ modalUserEmail }}"
+                [(ngModel)]="modalUserEmail" />
+              <br />
+              <label><b>First Name:</b></label>
+              <input type="text" class="form-control" id="userFirstName" placeholder="First Name" value="{{ modalUserFirstName }}"
+                [(ngModel)]="modalUserFirstName" />
+              <br />
+              <label><b>Last Name:</b></label>
+              <input type="text" class="form-control" id="userLastName" placeholder="Last Name" value="{{ modalUserLastName }}"
+                [(ngModel)]="modalUserLastName" />
+              <br />
+              <label><b>Role:</b></label>
+              <div class="form-group">
+                <select class="form-control" id="userSelectRole" value="{{ modalUserRole }}" [(ngModel)]="modalUserRole">
+                  <option disabled>Select a role</option>
+                  <option value="Student"> Student </option>
+                  <option value="Teacher"> Teacher </option>
+                </select>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                Close
+              </button>
+              <button type="button" (click)="updateUser()" class="btn btn-primary">
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Modal Edit User -->
+      <!-- Modal Delete User -->
+      <div class="modal fade" id="modalDeleteUser">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Delete User</h4>
+              <button type="button" class="close" data-dismiss="modal">
+                &times;
+              </button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+              <p>Are you sure you want to delete this user:</p>
+              <p><b>E-mail: </b>{{ modalUserEmail }}</p>
+              <p><b>First Name: </b>{{ modalUserFirstName }}</p>
+              <p><b>Last Name: </b>{{ modalUserLastName }}</p>
+              <p><b>Role: </b>{{ modalUserRole }}</p>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                Close
+              </button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteUser()">
+                Delete User
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Modal Delete User -->
+      <!-- Modal View Results User -->
+      <div class="modal fade" id="modalViewResults" tabindex="-1" role="dialog" aria-labelledby="modalViewResultsLabel"
+        aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalViewResultsLabel">
+                View Results Student
+              </h5>
+            </div>
+            <div class="modal-body">
+              <label><b>E-mail:</b>&nbsp;{{ modalUserEmail }}</label> <br />
+              <label><b>Student:</b>&nbsp;{{ modalUserFirstName }}&nbsp;{{
+                modalUserLastName
+                }}</label>
+              <br />
+              <b>View/Compare Test Results:</b><br />
+              <!-- Action buttons -->
+              <div class="row">
+                <div class="col-md-6">
+                  <label><i>Test Results 1 (Dark Color)</i></label>
+                  <div class="dropdown">
+                    <button class="btn btn-warning dropdown-toggle col-md-12" type="button" id="dropdownMenu2"
+                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      {{ selectedTestDateFirstDropdown }}
+                    </button>
+                    <div class="dropdown-menu col-md-12" aria-labelledby="dropdownMenu2">
+                      <button class="dropdown-item" type="button" *ngFor="let dates of resultDates; let i = index"
+                        value="{{ dates }}" (click)="getResultsSelectedDateDropdownOne(dates)">
+                        {{ dates }}
+                        <span *ngIf="i === 0"><b>(Most recent)</b></span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label><i>Test Results 2 (Light Color)</i></label>
+                  <div class="dropdown">
+                    <button class="btn btn-warning dropdown-toggle col-md-12" type="button" id="dropdownMenu2"
+                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      {{ selectedTestDateSecondDropdown }}
+                    </button>
+                    <div class="dropdown-menu col-md-12" aria-labelledby="dropdownMenu2">
+                      <button class="dropdown-item" type="button" *ngFor="let dates of resultDates; let i = index"
+                        value="{{ dates }}" (click)="getResultsSelectedDateDropdownTwo(dates)">
+                        {{ dates }}
+                        <span *ngIf="i === 0"><b>(Most recent)</b></span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Action buttons -->
+              <br />
+              <!-- Test results bar chart -->
+              <div class="col-md-12">
+                <div id="testResultsStudent" class="test_results_block">
+                  <div class="chart__block">
+                    <canvas id="resultsStudentChart" width="650" height="450"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="resetChartDataAndDropdown()">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Modal View Results User -->
+
+      <!-- Modal Student -->
+      <form (ngSubmit)="addStudentToClass()" novalidate>
+        <div class="modal fade" id="modalStudent">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">Assign student to class</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                  &times;
+                </button>
+              </div>
+
+              <!-- Modal body -->
+              <div class="modal-body">
+                <br /><label><b>Choose class</b></label>
+                <div class="form-group">
+                  <select class="form-control" id="classChoice" name="classChoice" [(ngModel)]="userClassData.class_name">
+                    <option *ngFor="let class of classList" value="{{ class.class_name }}">
+                      {{ class.class_name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                  Close
+                </button>
+                <button type="submit" class="btn btn-primary">
+                  Save changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <!-- End Modal Student -->
+      <!-- Modal Add Class -->
+      <form (ngSubmit)="createClass()" novalidate>
+        <div class="modal fade" id="modalAddClass">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">Add class</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                  &times;
+                </button>
+              </div>
+
+              <!-- Modal body -->
+              <div class="modal-body">
+                <fieldset>
+                  <label><b>Name</b></label>
+                  <input type="text" class="form-control" id="className" placeholder="Class" name="class" [(ngModel)]="classModel.class_name" />
+                </fieldset>
+              </div>
+
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                  Close
+                </button>
+                <button type="submit" class="btn btn-primary">
+                  Save changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <!-- End Modal Add Class -->
+      <!-- Modal Edit Class -->
+      <form (ngSubmit)="updateClass()" novalidate>
+        <div class="modal fade" id="modalEditClass">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">Edit class</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                  &times;
+                </button>
+              </div>
+
+              <!-- Modal body -->
+              <div class="modal-body">
+                <fieldset>
+                  <label><b>Name</b></label>
+                  <input type="text" class="form-control" id="className" placeholder="{{ modalClassName }}" name="Class"
+                    [(ngModel)]="classModel.class_name" />
+                </fieldset>
+              </div>
+
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                  Close
+                </button>
+                <button type="submit" class="btn btn-primary">
+                  Save changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <!-- End Modal Edit Class -->
+    </div>
+  </div>
+</div>

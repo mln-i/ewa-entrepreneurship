@@ -1,0 +1,30 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-light" *ngIf="navbar.visible">
+  <a class="navbar-brand home-page-btn" (click)="redirectHome(user.role)">
+    <img src="assets/images/hva-logo.png" width="30" height="30" class="d-inline-block align-top hva-logo" alt="" />
+    <b class="navbar-title">ENTREPRENEURSHIP</b>
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+    </ul>
+    <!-- Navbar right side -->
+    <ul class="navbar-nav ml-auto">
+      <form class="form-inline my-2 my-lg-0">
+        <div class="dropdown">
+          <button type="button" class="btn btn-outline custom-btn-profile dropdown-toggle" data-toggle="dropdown">
+            <i class="fa fa-user" aria-hidden="true"></i> Welcome {{ user.first_name }}
+          </button>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" id="dropdown-item-one" routerLink="/profile" *ngIf="router.url == '/studenthome'">My
+              Profile</a>
+            <div class="dropdown-divider" *ngIf="router.url == '/studenthome'"></div>
+            <a class="dropdown-item dropdown-item-red" href="/login" (click)="logOut()">Sign Out</a>
+          </div>
+        </div>
+      </form>
+    </ul>
+  </div>
+</nav>

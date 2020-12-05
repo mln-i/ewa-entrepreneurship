@@ -1,0 +1,89 @@
+.admin-homepage-container {
+  margin: 20px 0px 20px 0px !important;
+
+  .page__title {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .tab__container {
+    .counter {
+      background-color: #f5f5f5;
+      padding: 20px 0;
+      border-radius: 5px;
+    }
+
+    .count-title {
+      font-size: 40px;
+      font-weight: normal;
+      margin-top: 10px;
+      margin-bottom: 0;
+      text-align: center;
+    }
+
+    .count-text {
+      font-size: 13px;
+      font-weight: normal;
+      margin-top: 10px;
+      margin-bottom: 0;
+      text-align: center;
+    }
+
+    .fa-2x {
+      margin: 0 auto;
+      float: none;
+      display: table;
+      color: black;
+    }
+
+    .nav-link {
+      color: black;
+    }
+
+    .action__btn {
+      margin-right: 5px;
+    }
+  }
+
+  .video-description {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .search-bar {
+    padding-left: 0px;
+  }
+
+  .pagination-bar {
+    text-align: center;
+    padding-top: 10px;
+    border-radius: 10px;
+    border: 1px solid rgb(167, 162, 162);
+  }
+
+  .disable-tab:hover {
+    cursor: not-allowed;
+  }
+}
+
+.example-photo {
+  width: 184px;
+  height: 102px;
+}
+
+.overview-nav-link {
+  text-align: center;
+  font-size: 20px;
+}
+
+.insert-video-btn {
+  width: 100px;
+  font-size: 25px;
+
+}
+
+.insert-video-div {
+  text-align: center;
+}

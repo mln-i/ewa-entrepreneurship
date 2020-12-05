@@ -1,0 +1,170 @@
+<div class="cont">
+  <div class="registration-page-container col-md-8 offset-md-2">
+    <div class="registration-box-container">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <header>
+            <br />
+            <h1>Register account</h1>
+          </header>
+        </div>
+      </div>
+      <form #registerForm="ngForm" (ngSubmit)="doRegistration()" novalidate>
+        <div class="row">
+          <!-- First Name -->
+          <div class="col-md-6">
+            <label for="firstName"><i class="fa fa-id-card-o" aria-hidden="true"></i> First Name
+              *</label>
+            <input type="text" (keyup)="onKey($event)" required class="form-control" #firstname="ngModel"
+              [class.is-invalid]="firstname.invalid && firstname.touched" id="firstName" name="firstname" placeholder="First Name"
+              [(ngModel)]="registerUserModel.first_name" />
+            <small class="text-danger" [class.d-none]="firstname.valid || firstname.untouched">First Name is required</small>
+            <br />
+          </div>
+          <!-- Last Name -->
+          <div class="col-md-6">
+            <label for="lastName"><i class="fa fa-id-card-o" aria-hidden="true"></i> Last Name
+              *</label>
+            <input type="text" (keyup)="onKey($event)" required class="form-control" #lastname="ngModel"
+              [class.is-invalid]="lastname.invalid && lastname.touched" id="lastName" name="lastname" placeholder="Last Name"
+              [(ngModel)]="registerUserModel.last_name" />
+            <small class="text-danger" [class.d-none]="lastname.valid || lastname.untouched">Last Name is required</small>
+            <br />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-6">
+            <!-- Password -->
+            <label for="password"><i class="fa fa-key" aria-hidden="true"></i> Password *</label>
+            <input type="password" (keyup)="onKeyPassword($event)" required minlength="6" class="form-control"
+              #password="ngModel" [class.is-invalid]="password.invalid && password.touched" id="password" name="password"
+              placeholder="****" [(ngModel)]="registerUserModel.password" />
+
+            <div *ngIf="password.errors">
+              <div [hidden]="password.valid">
+                <small *ngIf="password.errors.required && password.touched" class="text-danger">
+                  Password is required
+                </small>
+                <small *ngIf="password.errors.minlength" class="text-danger">
+                  Password must be atleast 6 characters.</small>
+              </div>
+            </div>
+            <br />
+          </div>
+          <!-- Confirm password -->
+          <div class="col-6">
+            <label for="confirmPassword"><i class="fa fa-key" aria-hidden="true"></i> Confirm password
+              *</label>
+            <input type="password" (keyup)="onKeyPassword($event)" validateEqual="password" minlength="6" name="passwordconfirm"
+              required class="form-control" id="confirmpassword" #confirmpassword="ngModel" [class.is-invalid]="
+                (confirmpassword.invalid && confirmpassword.touched) ||
+                (confirmpassword.value !== password.value &&
+                  confirmpassword.touched)
+              "
+              [(ngModel)]="registerUserModel.confirmpassword" placeholder="****" />
+
+            <div *ngIf="confirmpassword.errors">
+              <div [hidden]="confirmpassword.valid">
+                <small *ngIf="
+                    confirmpassword.errors.required && confirmpassword.touched
+                  "
+                  class="text-danger">Confirm password is required.</small>
+                <small *ngIf="
+                    confirmpassword.value !== password.value &&
+                    confirmpassword.touched
+                  "
+                  class="text-danger">
+                  Passwords doesn't match.</small>
+              </div>
+            </div>
+            <br />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <!-- Email address -->
+            <label for="emailAddress"><i class="fa fa-envelope" aria-hidden="true"></i> Email Address
+              *</label>
+            <input type="email" (keyup)="onKeyEmail($event)" required pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}"
+              class="form-control" #email="ngModel" [class.is-invalid]="email.invalid && email.touched" id="emailaddress"
+              name="email" placeholder="you@example.com" [(ngModel)]="registerUserModel.email" />
+
+            <div *ngIf="email.errors">
+              <div *ngIf="email.errors.required && email.touched">
+                <small class="text-danger">Email Address is required</small>
+              </div>
+              <div *ngIf="email.errors.pattern && email.touched">
+                <small class="text-danger">Email Address is invalid. Format should be
+                  <i>john@doe.com</i></small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="password">
+              <i class="fa fa-plus-circle" aria-hidden="true"></i> Enrollment
+              Code (Optional)</label>
+            <input type="text" #enroll="ngModel" (keyup)="onKey($event)" class="form-control test disable-tab" disabled id="enrollcode" name="enrollcode"
+              placeholder="For example: IS4KE" [(ngModel)]="registerUserModel.enrollment_id" [class.is-invalid]="enroll.length > 5" />
+            <br />
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Roles -->
+          <div class="col-md-6">
+            <label for="role"><i class="fa fa-user-plus" aria-hidden="true"></i> Role</label>
+            <select required class="form-control" id="role" name="userrole" [(ngModel)]="registerUserModel.role">
+              <option *ngFor="let roles of accountRoles" [ngValue]="roles">{{
+                roles
+                }}</option>
+            </select>
+            <br />
+          </div>
+          <!-- Teacher -->
+          <div class="col-md-6">
+            <label for="teacher"><i class="fa fa-users" aria-hidden="true"></i> Do you want to be
+              assigned to a teacher? *</label>
+            <select required class="form-control" required #teacher="ngModel" [class.is-invalid]="teacher.invalid && teacher.touched"
+              id="teacher" name="selectedteacher" [(ngModel)]="registerUserModel.teacher">
+              <option [ngValue]="null">Choose your answer...</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+            <small class="text-danger" [class.d-none]="teacher.valid || teacher.untouched">Answer required</small>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Action buttons -->
+          <div class="col-12 text-center">
+            <br />
+            <button class="btn btn-outline-danger" type="button" (click)="registrationFail()" [style.display]="
+                registerForm.form.valid &&
+                confirmpassword.value === password.value
+                  ? 'none'
+                  : 'inline'
+              ">
+              Please fill in all the required fields.
+            </button>
+            <div *ngIf="
+                registerForm.form.valid &&
+                confirmpassword.value === password.value
+              ">
+              <button class="btn btn-succes col-md-12 registrate-btn" type="submit" [disabled]="emailAvailable === false">
+                Create account
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 text-center">
+          <div class="col-md-8 offset-md-2">
+            <br /><span>Already have an account? </span><a class="loginUrlText" href="/login">Log in</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

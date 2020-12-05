@@ -1,0 +1,52 @@
+.competence-results-container {
+  margin: 20px 0px 20px 0px !important;
+
+  .page__title {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  #accordion {
+    .card-layout {
+      max-height: 70vh;
+    }
+
+    .card-body-layout {
+      max-height: 60vh;
+      overflow-y: scroll;
+    }
+  }
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+  .homepage-btn {
+    background-color: #568dd8;
+    border-color: #568dd8;
+  }
+
+  .fa-list, .result-tab-btn {
+    color: #f25f5c;
+  }
+
+  .homepage-btn-div {
+    padding-top: 20px;
+  }
+}

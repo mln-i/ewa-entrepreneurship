@@ -1,0 +1,38 @@
+.cont {
+  background-image: url("/assets/images/backhva.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  overflow: auto;
+  height: 100vh;
+
+  .registration-page-container {
+    .registration-box-container {
+      margin: 60px 0px 7.7vh 0px !important;
+      background-color: whitesmoke;
+      background-size: cover;
+      background-attachment: fixed;
+      overflow: auto;
+      padding: 20px;
+      border: 1px solid whitesmoke;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      .white-text {
+        color: white;
+      }
+      input:focus {
+        background-color: #ffe066;
+      }
+    }
+  }
+
+  .registrate-btn {
+    background-color: #568dd8;
+    border-color: #568dd8;
+    color: white;
+  }
+
+  .disable-tab:hover {
+    cursor: not-allowed;
+  }
+}

@@ -1,0 +1,108 @@
+.teacher-homepage-container {
+  margin: 20px 0px 20px 0px !important;
+
+  .page__title {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .tab__container {
+    .counter {
+      background-color: #f5f5f5;
+      padding: 20px 0;
+      border-radius: 5px;
+    }
+
+    .count-title {
+      font-size: 40px;
+      font-weight: normal;
+      margin-top: 10px;
+      margin-bottom: 0;
+      text-align: center;
+    }
+
+    .count-text {
+      font-size: 13px;
+      font-weight: normal;
+      margin-top: 10px;
+      margin-bottom: 0;
+      text-align: center;
+    }
+
+    .fa-2x {
+      margin: 0 auto;
+      float: none;
+      display: table;
+    }
+
+    .action__btn {
+      margin-right: 5px;
+    }
+
+    .table__url {
+      max-width: 40vh;
+    }
+
+    .table td {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .table__center {
+      text-align: center;
+    }
+
+    .pagination-bar {
+      text-align: center;
+      padding-top: 10px;
+      border-radius: 10px;
+      border: 1px solid rgb(167, 162, 162);
+    }
+
+    .test_results_block {
+      padding: 5px 0px 10px 0px;
+      border: 1px solid lightgrey;
+      border-radius: 5px;
+
+      .chart__block {
+        width: 100%;
+      }
+    }
+  }
+
+  .example-photo {
+    width: 204px;
+    height: 122px;
+  }
+
+  .save-btn {
+    background-color: #568dd8;
+    border-color: #568dd8;
+  }
+
+  .disable {
+    pointer-events: none;
+  }
+
+  .insert-video-btn {
+    width: 100px;
+    font-size: 25px;
+
+  }
+
+  .insert-video-div {
+    text-align: center;
+  }
+
+  .disable-tab:hover {
+    cursor: not-allowed;
+  }
+
+  .description-max {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

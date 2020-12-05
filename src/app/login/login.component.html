@@ -1,0 +1,37 @@
+<div class="cont">
+  <div class="login-page-container row">
+    <div class="login-box-container col-md-4 offset-md-4">
+      <div class="login">
+        <div class="text-center col-md-12">
+          <img class="login__logo" src="/assets/images/hva-logo-en.png" />
+        </div>
+        <h2 class="login-title">ENTREPRENEURSHIP</h2>
+        <br />
+        <h4 class="login-sub-title">Log in to the platform</h4>
+        <form #loginForm="ngForm" (ngSubmit)="onLoginSubmit()" novalidate>
+          <div class="textbox">
+            <i class="fa fa-user" aria-hidden="true"></i>
+            <input id="emailLogin" type="email" placeholder="you@example.com" name="email" [(ngModel)]="userLoginModel.email" />
+          </div>
+
+          <div class="textbox">
+            <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+            <input id="passwordLogin" type="password" placeholder="Password" name="password" [(ngModel)]="userLoginModel.password" />
+          </div>
+
+          <input class="btn btn-success col-md-12 login-btn" type="submit" name="login" value="Login" />
+          <br />
+          <br />
+        </form>
+
+        <div class="col-md-12 text-center">
+          <div class="col-md-12 ">
+            <br />
+            <span>Don't have an account? </span>
+            <a href="/registration">Sign up</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

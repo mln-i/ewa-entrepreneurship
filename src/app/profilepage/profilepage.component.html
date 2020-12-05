@@ -1,0 +1,111 @@
+<div class="profile-page-container row">
+  <!-- Page title -->
+  <div class="col-md-12 page__title">
+    <h3>Edit my profile</h3>
+  </div>
+
+  <!-- Profile picture block -->
+  <div class="col-sm-2 col-md-3 offset-md-1 profile__picture__block">
+    <img class="profile__picture" src="https://www.w3schools.com/bootstrap4/img_avatar3.png" width="250" height="250" />
+    <br /><br />
+    <pre><i class="username-text">{{ User.first_name + " " + User.last_name }}</i></pre>
+  </div>
+
+  <!-- User information block -->
+  <div class="col-sm-6 col-md-7">
+    <div class="user__information row">
+      <div class="col-md-6">
+        <label for="firstname"><i class="fa fa-id-card-o" aria-hidden="true"></i> First Name
+          *:</label>
+        <input type="text" class="form-control" placeholder="First Name" id="firstname" required />
+        <label class="label__spacing" for="email"><i class="fa fa-envelope-o" aria-hidden="true"></i> Email address
+          *:</label>
+        <input type="text" class="form-control" placeholder="Email" id="email" required />
+        <label class="label__spacing" for="class"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Current
+          class:</label>
+        <fieldset disabled>
+          <input type="text" class="form-control" placeholder="Current Class" id="class" required />
+        </fieldset>
+      </div>
+      <div class="col-md-6">
+        <label for="lastname"><i class="fa fa-id-card-o" aria-hidden="true"></i> Last Name
+          *:</label>
+        <input type="text" class="form-control" placeholder="Last Name" id="lastname" required />
+        <label class="label__spacing" for="enroll"><i class="fa fa-users" aria-hidden="true"></i> Enrollment Code
+          :</label>
+        <input type="text" class="form-control" placeholder="Enrollment code" id="enroll" required />
+        <label class="label__spacing" for="assign"><i class="fa fa-plus-circle" aria-hidden="true"></i> Assign me to a
+          teacher:</label>
+        <select class="form-control" id="assign" required>
+          <option>No</option>
+          <option>Yes</option>
+        </select>
+      </div>
+      <div class="col-md-12">
+        <br />
+        <b><i class="required__text">* Required fields</i></b>
+        <button class="btn btn-success save-btn pull-right" id="saveprofile">
+          Save changes
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- End User information block -->
+
+  <div class="col-md-10 offset-md-1">
+    <hr />
+  </div>
+
+  <!-- Action buttons -->
+  <div class="col-sm-2 col-md-3 offset-md-1">
+    <div class="col-md-12 text-center">
+      <button (click)="exportCompetenceResults()" type="button" class="btn btn-primary export-pdf-btn" id="shareresults">
+        Export results as PDF
+      </button>
+    </div>
+    <br />
+    <b>View/Compare Test Results:</b><br />
+    <label><i>Test Results 1 (Dark Color)</i></label>
+    <div class="dropdown">
+      <button class="btn btn-warning dropdown-toggle col-md-12" type="button" id="dropdownMenu2" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        {{ selectedTestDateFirstDropdown }}
+      </button>
+      <div class="dropdown-menu col-md-12" aria-labelledby="dropdownMenu2">
+        <button class="dropdown-item" type="button" *ngFor="let dates of resultDates; let i = index" value="{{ dates }}"
+          (click)="getResultsSelectedDateDropdownOne(dates)">
+          {{ dates }} <span *ngIf="i === 0"><b>(Most recent)</b></span>
+        </button>
+      </div>
+    </div>
+    <label><i>Test Results 2 (Light Color)</i></label>
+    <div class="dropdown">
+      <button class="btn btn-warning dropdown-toggle col-md-12" type="button" id="dropdownMenu2" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        {{ selectedTestDateSecondDropdown }}
+      </button>
+      <div class="dropdown-menu col-md-12" aria-labelledby="dropdownMenu2">
+        <button class="dropdown-item" type="button" *ngFor="let dates of resultDates; let i = index" value="{{ dates }}"
+          (click)="getResultsSelectedDateDropdownTwo(dates)">
+          {{ dates }} <span *ngIf="i === 0"><b>(Most recent)</b></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- End Action buttons -->
+  <!-- Test results bar chart -->
+  <div class="col-sm-6 col-md-7">
+    <div id="testResults" class="test_results_block row">
+      <div class="chart__block">
+        <canvas id="myChart" width="500" height="250"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Go back to homepage button -->
+  <div class="col-md-12 text-center homepage-btn-div">
+    <button class="btn btn-primary homepage-btn" routerLink="/studenthome">
+      Go back to homepage
+    </button>
+  </div>
+</div>
